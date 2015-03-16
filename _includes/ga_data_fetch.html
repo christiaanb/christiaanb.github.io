@@ -48,14 +48,9 @@
 
                   $('span[data-post-url]').each(function(index) {
                     var dataPostUrl = $(this).attr("data-post-url");
-                    if (dataPostUrl.lastIndexOf("/") === (dataPostUrl.length - 1)) {
-                      dataPostUrl = dataPostUrl + "index.html";
-                    }
 
                     if (oPageViews[dataPostUrl] !== undefined && oPageViews[dataPostUrl] !== null ) {
                       $(this).html("Views: " + oPageViews[dataPostUrl]);
-                    } else {
-                      $(this).html("Views: oPageViews[dataPostUrl] null or undefined" + dataPostUrl);
                     }
 
                   });
