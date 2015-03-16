@@ -1,15 +1,27 @@
 ---
 layout: post
-title:  "Jekyll Starter!"
-date:   2014-08-15 08:07:00
+title:  "Relocatable Cabal sandboxes"
+date:   2015-03-16 15:18:00
 categories: blogging
-tags: blogging jekyll-starter
+tags: haskell cabal
 comments: true
 analytics: true
 ---
 
-This is a Jekyll Starter project, based on [Lanyon](https://github.com/poole/lanyon), to get started quickly with setting up a blog using Jekyll on Github Pages. This bootstrap project includes social integration using [AddThis](https://www.addthis.com) for sharing and author following across many social media platforms. Integration with Google Analytics is also built in, using [Google Analytics superProxy](https://developers.google.com/analytics/solutions/google-analytics-super-proxy).
+Cabal 1.22 has preliminary support for relocatable packages, which is actually undocumented because I'm a bad patch writer.
 
-This project also includes tag visualization in each post, and as a consolidated tag based archive.
+Regardless, this preliminary support for relocatable packages partially enables relocatable sandboxes. What's this partial part you might ask?
+Well, only the `.cabal-sandbox` directory is relocatable, not the sandbox config file. So basically the part that takes the longest time to build is relocatable.
+So, how do you go about the creating such a relocatable `.cabal-sandbox `directory? easy:
 
-A grunt based build is included, which currently supports css minification and merging - for faster loading of the blog.
+  * `cd <project_dir>`
+
+  * `cabal sandbox init`
+
+  * `cabal install --dependencies-only --enable-relocable`
+
+The created `.cabal-sandbox` directory is relocatable anywhere on the machine, and across machines if ghc is installed in the same directory.
+Even dynamically linked libraries will work on Linux and OS X because the libraries will use relative RPATHs.
+
+All that's left to having truly relocatable sandboxes, is to make the .config files also relocatable.
+And I should write some documentation for the next Cabal release.

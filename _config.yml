@@ -8,10 +8,10 @@ highlighter:      pygments
 permalink:        /posts/:title/
 
 # User Configuration
-title:            JEKYLL KICKSTART
-tagline:          'A bootstrap for Jekyll'
-description:      'Some random stuff about me'
-url:              http://jekyll-kickstart.gihub.io
+title:            Christiaan Baaij
+tagline:          'Haskell & Hardware'
+description:      'Some random Haskell blog'
+url:              http://christiaanb.github.io
 baseurl:          '/'
 paginate:         3
 excerpt_separator: '<br>'
@@ -23,25 +23,25 @@ gems:
 
 # Author Info
 author:
-  name:           'Jekyll Kickstart'
-  url:            your_web_url
+  name:           'Christiaan'
+  url:            http://christiaanb.github.io
 
 # Social Integration
 social:
-  twitter:        your_twitter_handle
-  disqus:         your_disqus_id
-  addthis_pubid:  your_addthis_pubid
+  twitter:        ChristiaanBaaij
+  disqus:         christiaanbaaij
+  addthis_pubid:  ra-5506ca1c2cef566d
 
 # Google Analytics Configuration
 # Proxy response must be in JSON and should have the fields - ga:pagePath, ga:pageview
 google_analytics:
-  tracking_id:      your_google_analytics_tracking_id
-  super_proxy_url:  your_super_proxy_url
+  tracking_id:      UA-42920604-2
+  super_proxy_url:  http://christiaanblog.appspot.com/query?id=ahBzfmNocmlzdGlhYW5ibG9nchULEghBcGlRdWVyeRiAgICAgICACgw&format=json
 
 # Github
 github:
-  repo:           your_github_repo
-  feedback:       your_github_repo_issues_page_url
+  repo:           https://github.com/christiaanb/christiaanb.github.io
+  feedback:       https://github.com/christiaanb/christiaanb.github.io/issues
 
 # Version Info
-version:          0.0.5
+version:          1.0

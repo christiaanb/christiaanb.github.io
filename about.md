@@ -9,6 +9,6 @@ title: About Me
 
 {% include follow_me.html %}
 
-###Something about yourself
+###Something about this blog
 
-Blah blah blah.....
+This is where I write about Haskell, and creating circuits in Haskell.
