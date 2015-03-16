@@ -32,9 +32,7 @@
                 if (response.rows !== undefined) {
                   jQuery.each(response.rows, function(index, row){
                       var ga_page_url = row[pagePathIndex];
-                      if (page_url.lastIndexOf("/") === (page_url.length - 1)) {
-                        page_url = page_url + "index.html";
-                      }
+
                       if (ga_page_url === page_url) {
                           page_views = row[pageViewsIndex];
                           if (page_views !== undefined && page_views !== null && $("#ga-pageviews-div")) {
