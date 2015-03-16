@@ -39,8 +39,6 @@
                           page_views = row[pageViewsIndex];
                           if (page_views !== undefined && page_views !== null && $("#ga-pageviews-div")) {
                               $("#ga-pageviews").html("Views: " + page_views);
-                          } else {
-                              $("#ga-pageviews").html("Views: page_views undefined");
                           }
                       }
 
@@ -57,13 +55,10 @@
                     if (oPageViews[dataPostUrl] !== undefined && oPageViews[dataPostUrl] !== null ) {
                       $(this).html("Views: " + oPageViews[dataPostUrl]);
                     } else {
-                      $(this).html("Views: oPageViews[dataPostUrl] null or undefined");
+                      $(this).html("Views: oPageViews[dataPostUrl] null or undefined" + dataPostUrl);
                     }
 
                   });
-                } else {
-                     $("#ga-pageviews").html("Views: rows undefined");
-                     $(this).html("Views: rows undefined");
                 }
               }
           })
