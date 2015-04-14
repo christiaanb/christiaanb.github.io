@@ -18,7 +18,7 @@ So, how do you go about the creating such a relocatable `.cabal-sandbox `directo
 
   * `cabal sandbox init`
 
-  * `cabal install --dependencies-only --enable-relocable`
+  * `cabal install --dependencies-only --enable-relocatable`
 
 The created `.cabal-sandbox` directory is relocatable anywhere on the machine, and across machines if ghc is installed in the same directory.
 Even dynamically linked libraries will work on Linux and OS X because the libraries will use relative RPATHs.
