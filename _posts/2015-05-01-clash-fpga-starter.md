@@ -1,11 +1,11 @@
 ---
 layout: post
 title:  "CλaSH FPGA Starter"
-date:   2015-05-01 09:10:00
+date:   2015-05-01 16:15:00
 categories: draft
 tags: cλash haskell fpga
-comments: false
-analytics: false
+comments: true
+analytics: true
 ---
 In this tutorial we'll be programming the Terasic [DE0-Nano](http://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=English&CategoryNo=165&No=593&PartNo=1) FPGA development board using the functional hardware description language [CλaSH](http://www.clash-lang.org).
 The end result of this tutorial is demonstrated in the video below:
