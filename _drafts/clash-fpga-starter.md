@@ -10,11 +10,15 @@ analytics: false
 In this tutorial we'll be programming the Terasic [DE0-Nano](http://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=English&CategoryNo=165&No=593&PartNo=1) FPGA development board using the functional hardware description language [CλaSH](http://www.clash-lang.org).
 The end result of this tutorial is demonstrated in the video below:
 
-<iframe width="320" height="180" src="https://www.youtube.com/embed/XUj9cewMsww" frameborder="0" allowfullscreen></iframe>
+<div class="youtube-video">
+  <iframe width="320" height="180" src="https://www.youtube.com/embed/XUj9cewMsww" frameborder="0" allowfullscreen></iframe>
+</div>
 
 This tutorial is not a general introduction to CλaSH, nor to programming FPGAs.
 It is meant to demonstrate how to use of `.topentity` files (added in version `0.5.4` of CλaSH) to configure your CλaSH designs for an FPGA, without writing a single line of VHDL or (System)Verilog.
 Even then, this tutorial is already almost too long for single blog post, but here goes:
+
+<br>
 
 ## Blinker circuit
 
