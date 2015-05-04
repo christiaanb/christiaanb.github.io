@@ -320,7 +320,10 @@ This opens a dialog called `Save IP Variation`, at the end of the line enter `al
 ![VariationPLL](/assets/images/quartus2-ipvariation-altpll50.jpg)
 
 This opens the `MegaWizzard` dialog for the PLL.
-Change `What is the frequency of the inclk0 input` to `50.000`.
+Change `What is the frequency of the inclk0 input?` to `50.000`.
+
+![WizardPLL](/assets/images/megawizzard-altpll50.jpg)
+
 Then press `Finish` _twice_.
 This closes the `MegaWizzard` dialog, and opens a new dialog asking if you want to add this IP block to your project.
 We want his, so select 'Yes'.
