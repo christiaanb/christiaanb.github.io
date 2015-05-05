@@ -87,14 +87,14 @@ blinkerT (leds,mode,cntr) key1R = ((leds',mode',cntr'),leds)
 ## `TopEntity` annotations
 
 Now that we've created our CλaSH design, it's time to move on to the important part of this tutorial, elaboration of the `TopEntity` annotation.
-The [TopEntity](https://hackage.haskell.org/package/clash-prelude/dist/doc/html/clash-prelude/CLaSH-Annotations-TopEntity.html#t:TopEntity) is a Haskell data type that guides the CλaSH in generating port names and setting up clocks.
+The [TopEntity](https://hackage.haskell.org/package/clash-prelude/docs/CLaSH-Annotations-TopEntity.html#t:TopEntity) is a Haskell data type that guides the CλaSH in generating port names and setting up clocks.
 These annotations are applied using the `ANN` pragma:
 
 {% highlight haskell %}
 {-# ANN foo (TopEntity {t_name = .., .., ..}) #-}
 {% endhighlight %}
 
-In our example, we extend the minimalist [defTop](https://hackage.haskell.org/package/clash-prelude/dist/doc/html/clash-prelude/CLaSH-Annotations-TopEntity.html#v:defTop) annotation with:
+In our example, we extend the minimalist [defTop](https://hackage.haskell.org/package/clash-prelude/docs/CLaSH-Annotations-TopEntity.html#v:defTop) annotation with:
 
 * `t_name`: the name our component should have. In our case: `blinker`
 * `t_inputs`: a list of names our inputs should have. In our case: `KEY1`
@@ -105,7 +105,7 @@ In our example, we extend the minimalist [defTop](https://hackage.haskell.org/pa
   In our case we add an extra 1-bit input `CLOCK_50` which will correspond to the pin to which the 50MHz crystal is attached, and a 1-bit input `KEY0` which is the button we will use as a reset.
 * `t_clocks`: a list of clock sources.
 
-We create a single clock source by instantiating the _default_ template for the Altera PPL component [defClkAltera](https://hackage.haskell.org/package/clash-prelude/dist/doc/html/clash-prelude/CLaSH-Annotations-TopEntity.html#v:defClkAltera).
+We create a single clock source by instantiating the _default_ template for the Altera PPL component [defClkAltera](https://hackage.haskell.org/package/clash-prelude/docs/CLaSH-Annotations-TopEntity.html#v:defClkAltera).
 The first argument of this function is the name, the second an expression corresponding to the clock pin to connect, and the third the expression corresponding to the reset pin to connect.
 So to elaborate the arguments in order:
 
