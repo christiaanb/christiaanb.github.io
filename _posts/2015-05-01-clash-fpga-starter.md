@@ -15,7 +15,7 @@ The end result of this tutorial is demonstrated in the video below:
 </div>
 
 This tutorial is not a general introduction to CλaSH, nor to programming FPGAs.
-It is meant to demonstrate how to use of `.topentity` files (added in version `0.5.4` of CλaSH) to configure your CλaSH designs for an FPGA, without writing a single line of VHDL or (System)Verilog.
+It is meant to demonstrate how to use of `TopEntity` annotations (added in version `0.5.5` of CλaSH) to configure your CλaSH designs for an FPGA, without writing a single line of VHDL or (System)Verilog.
 Even then, this tutorial is already almost too long for single blog post, but here goes:
 
 <br>
@@ -48,6 +48,19 @@ module Blinker where
 
 import CLaSH.Prelude
 
+{-# ANN topEntity
+  (defTop
+    { t_name     = "blinker"
+    , t_inputs   = ["KEY1"]
+    , t_outputs  = ["LED"]
+    , t_extraIn  = [ ("CLOCK_50", 1)
+                   , ("KEY0"    , 1)
+                   ]
+    , t_clocks   = [ (defClkAltera "altpll50"
+                                   "CLOCK_50(0)"
+                                   "not KEY0(0)")
+                   ]
+    }) #-}
 topEntity :: Signal Bit -> Signal (BitVector 8)
 topEntity key1 = leds
   where
@@ -71,72 +84,41 @@ blinkerT (leds,mode,cntr) key1R = ((leds',mode',cntr'),leds)
           | otherwise = leds
 {% endhighlight %}
 
-## `topentity` configuration
+## `TopEntity` annotations
 
-Now that we've created our CλaSH design, it's time to move on to the important part of this tutorial, the specification of the `.topentity` file.
-The `.topentity` file should have the same name, as the `module` name in which our `topEntity` function is located; so in this case:
+Now that we've created our CλaSH design, it's time to move on to the important part of this tutorial, elaboration of the `TopEntity` annotation.
+The [TopEntity](https://hackage.haskell.org/package/clash-prelude/dist/doc/html/clash-prelude/CLaSH-Annotations-TopEntity.html#t:TopEntity) is a Haskell data type that guides the CλaSH in generating port names and setting up clocks.
+These annotations are applied using the `ANN` pragma:
 
-`blinker.topentity`:
-{% highlight json %}
-{ "TopEntity" :
-  { "name"     : "blinker"
-  , "inputs"   : [ "KEY1" ]
-  , "outputs"  : [ "LED" ]
-  , "extra_in" : [ ["CLOCK_50", 1 ]
-                 , ["KEY0", 1 ]
-                 ]
-  , "clocks"   :
-    [ { "Source" :
-        { "name"  : "altpll50"
-        , "paths" : [ { "Path" :
-                        { "inp"  : ["inclk0", "CLOCK_50(0)"]
-                        , "outp" : [ ["c0","System"] ]
-                        }
-                      }
-                    ]
-        , "reset" : ["areset","not KEY0(0)"]
-        , "lock"  : "locked"
-        }
-      }
-    ]
-  }
-}
+{% highlight haskell %}
+{-# ANN foo (TopEntity {t_name = .., .., ..}) #-}
 {% endhighlight %}
 
-The `.topentity` file is a [JSON](http://www.json.org/) encoded specification of our top-level component in the hierarchy.
-We'll go through the _keys_ step-by-step:
+In our example, we extend the minimalist [defTop](https://hackage.haskell.org/package/clash-prelude/dist/doc/html/clash-prelude/CLaSH-Annotations-TopEntity.html#v:defTop) annotation with:
 
-* `name`: the name our component should have. In our case: `blinker`
-* `inputs`: a list of names our inputs should have. In our case: `KEY1`
-* `outputs`: a list of names our outputs should have. In our case: `LED`
-* `extra_in`: a list of extra inputs that do not correspond to the arguments of our `topEntity` function.
+* `t_name`: the name our component should have. In our case: `blinker`
+* `t_inputs`: a list of names our inputs should have. In our case: `KEY1`
+* `t_outputs`: a list of names our outputs should have. In our case: `LED`
+* `t_extraIn`: a list of extra inputs that do not correspond to the arguments of our `topEntity` function.
   These extra inputs are always bit vectors.
   Every item in the `extra_in` list is a tuple (encoded as a 2-element list) of a name, and the number of bits for that input.
   In our case we add an extra 1-bit input `CLOCK_50` which will correspond to the pin to which the 50MHz crystal is attached, and a 1-bit input `KEY0` which is the button we will use as a reset.
-* `clocks`: a list of clock sources.
+* `t_clocks`: a list of clock sources.
 
-Every clock `Source` consists of the following:
+We create a single clock source by instantiating the _default_ template for the Altera PPL component [defClkAltera](https://hackage.haskell.org/package/clash-prelude/dist/doc/html/clash-prelude/CLaSH-Annotations-TopEntity.html#v:defClkAltera).
+The first argument of this function is the name, the second an expression corresponding to the clock pin to connect, and the third the expression corresponding to the reset pin to connect.
+So to elaborate the arguments in order:
 
-* `name`: the name of the component generating our clock. In our case `altpll50`, an instantiated PLL component we will create later on in this tutorial.
-* `paths`: a list of clock paths, details of which will follow soon.
-* `reset`: a tuple of: the name of the _active-high_ port by which we can (asynchronously) reset the clock source, and the expression controlling this reset.
-  Now, I lied a bit that we didn't have to write any VHDL or SystemVerilog.
-  As you can see, we connect the reset port `areset` to the expression `not KEY0(0)`, where the latter is obviously a VHDL expression.
-  Remember that our extra inputs are bit _vectors_, but the `altpll50`s `areset` port expects a single bit.
+* `name`: the name of the component generating our clock. In our case `"altpll50"`, an instantiated PLL component we will create later on in this tutorial.
+* `clock port`: Now, I lied a bit that we didn't have to write any VHDL or SystemVerilog.
+  As you can see, we connect the clock port to the expression `CLOCK_50(0)`, which is a VHDL expression.
+  The `altpll50`s `clock port` expects a single bit, but our `CLOCK_50` port is a 1-bit _vector_..
+  Hence we need to select the first (and only) bit: `"CLOCK_50(0)"`.
+* `reset port`: Again, we have to write some VHDL: `not KEY0(0)`.
+  Remember that our extra inputs are bit _vectors_, but the `reset port` expects a single bit.
   Hence we need to select the first (and only) bit: `KEY0(0)`.
   Additionally, remember that the keys are `0` when they are pressed, but the reset port expects an _active-high_ signal.
-  Hence we need to negate the signal: `not KEY0(0)`.
-* `lock`: the name of the port that the clock signals are stable. In our case it is called `locked`.
-
-Finally, we arrive at the definition of the clock `Path`:
-
-* `inp`: a tuple of: the name port to which the external clock source must be connected, and the name of the external source.
-  In our case, the name of the port is `inclk0`.
-  Again, we have to write some VHDL.
-  Just as for the reset port, the `inclk0` port is expecting a single bit, but our `CLOCK_50` port is a 1-bit _vector_.
-  We hence need to extract the first (and only) element: `CLOCK_50(0)`.
-* `outp`: a list of tuples, where every tuple consists of the name of an output port of the clock generator, and the clock to which this port should be connected.
-  In our case, we only have a single output port, `c0`, which we connect to the `System` clock.
+  Hence we need to negate the signal: `"not KEY0(0)"`.
 
 ## VHDL generation
 
