@@ -329,6 +329,6 @@ Press the `Start` button on the left to program your FPGA and wait until the pro
 Your FPGA should now be fully configured with the CλaSH generated design for you to play with.
 So yeah, go press those buttons!
 
-This ends the tutorial on the use of `.topentity` configurations to program your FPGA devices with CλaSH designs.
+This ends the tutorial on the use of `TopEntity` annotations to program your FPGA devices with CλaSH designs.
 I hope you got the gist of it.
 If/When I get my hands on a Xilinx FPGA board, I hope to make an alternate version of this tutorial, but then use Xilinx' ISE/Vivado tool-flow instead.
