@@ -2,7 +2,7 @@
 layout: post
 title:  "CλaSH FPGA Starter"
 date:   2015-05-01 16:15:00
-categories: draft
+categories: blogging
 tags: cλash haskell fpga
 comments: true
 analytics: true
