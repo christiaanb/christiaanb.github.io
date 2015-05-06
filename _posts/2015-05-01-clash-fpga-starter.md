@@ -20,6 +20,8 @@ Even then, this tutorial is already almost too long for single blog post, but he
 
 <br>
 
+> This tutorial used to be specified in terms of `.topentity` files, a method which is now superseded by `TopEntity` annotions. You can still see the old version on [github](https://github.com/christiaanb/christiaanb.github.io/blob/900228402321c8344853441aba96c71ed1db830b/_posts/2015-05-01-clash-fpga-starter.md)
+
 ## Blinker circuit
 
 We start with some general information about the [DE0-Nano](http://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=English&CategoryNo=165&No=593&PartNo=1) board:
