@@ -27,7 +27,7 @@ Even then, this tutorial is already almost too long for single blog post, but he
 We start with some general information about the [DE0-Nano](http://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=English&CategoryNo=165&No=593&PartNo=1) board:
 
 * It has a 50 MHz crystal connected to a clock pin of FPGA, which we will connect to one of the [PLL](https://www.altera.com/literature/ug/ug_altpll.pdf)s that is on the FPGA to create a _stable_ 50 MHz clock signal.
-* It has 8 green LEDs that turn on when we put a `1` on the FPGA pin connected to the LED.
+* It has 8 green LEDs that turn _on_ when we put a `1` on the FPGA pin connected to the LED.
 * It has two buttons which are already properly [debounced](http://en.wikipedia.org/wiki/Switch#Contact_bounce) by a Schmitt trigger. The buttons are `0` when they are pressed, and `1` when they are not.
 
 The circuit that we are making will repeatedly do one of two things:
@@ -89,7 +89,7 @@ blinkerT (leds,mode,cntr) key1R = ((leds',mode',cntr'),leds)
 ## `TopEntity` annotations
 
 Now that we've created our CλaSH design, it's time to move on to the important part of this tutorial, elaboration of the `TopEntity` annotation.
-The [TopEntity](https://hackage.haskell.org/package/clash-prelude/docs/CLaSH-Annotations-TopEntity.html#t:TopEntity) is a Haskell data type that guides the CλaSH in generating port names and setting up clocks.
+The [TopEntity](https://hackage.haskell.org/package/clash-prelude/docs/CLaSH-Annotations-TopEntity.html#t:TopEntity) is a Haskell data type that guides the CλaSH compiler in generating port names and setting up clocks.
 These annotations are applied using the `ANN` pragma:
 
 {% highlight haskell %}
@@ -125,7 +125,7 @@ So to elaborate the arguments in order:
 ## VHDL generation
 
 Now it's time to generate some VHDL, yay!
-Make sure that the `Blinker.hs` and `blinker.topentity` file are in your current working directory, and then run the CλaSH compiler to generate VHDL:
+Make sure that the `Blinker.hs` file is in your current working directory, and then run the CλaSH compiler to generate VHDL:
 
 ```
 clash --vhdl Blinker.hs
