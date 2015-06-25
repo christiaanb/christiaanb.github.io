@@ -58,9 +58,9 @@ import CLaSH.Prelude
     , t_extraIn  = [ ("CLOCK_50", 1)
                    , ("KEY0"    , 1)
                    ]
-    , t_clocks   = [ (defClkAltera "altpll50"
-                                   "CLOCK_50(0)"
-                                   "not KEY0(0)")
+    , t_clocks   = [ (altpll "altpll50"
+                             "CLOCK_50(0)"
+                             "not KEY0(0)")
                    ]
     }) #-}
 topEntity :: Signal Bit -> Signal (BitVector 8)
@@ -107,7 +107,7 @@ In our example, we extend the minimalist [defTop](https://hackage.haskell.org/pa
   In our case we add an extra 1-bit input `CLOCK_50` which will correspond to the pin to which the 50MHz crystal is attached, and a 1-bit input `KEY0` which is the button we will use as a reset.
 * `t_clocks`: a list of clock sources.
 
-We create a single clock source by instantiating the _default_ template for the Altera PPL component [defClkAltera](https://hackage.haskell.org/package/clash-prelude/docs/CLaSH-Annotations-TopEntity.html#v:defClkAltera).
+We create a single clock source by instantiating the _default_ template for the Altera PPL component [altpll](https://hackage.haskell.org/package/clash-prelude/docs/CLaSH-Annotations-TopEntity.html#v:altpll) for the Cyclone IV.
 The first argument of this function is the name, the second an expression corresponding to the clock pin to connect, and the third the expression corresponding to the reset pin to connect.
 So to elaborate the arguments in order:
 
