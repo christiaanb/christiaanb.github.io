@@ -114,7 +114,7 @@ So to elaborate the arguments in order:
 * `name`: the name of the component generating our clock. In our case `"altpll50"`, an instantiated PLL component we will create later on in this tutorial.
 * `clock port`: Now, I lied a bit that we didn't have to write any VHDL or SystemVerilog.
   As you can see, we connect the clock port to the expression `CLOCK_50(0)`, which is a VHDL expression.
-  The `altpll50`s `clock port` expects a single bit, but our `CLOCK_50` port is a 1-bit _vector_..
+  The `altpll50`s `clock port` expects a single bit, but our `CLOCK_50` port is a 1-bit _vector_.
   Hence we need to select the first (and only) bit: `"CLOCK_50(0)"`.
 * `reset port`: Again, we have to write some VHDL: `not KEY0(0)`.
   Remember that our extra inputs are bit _vectors_, but the `reset port` expects a single bit.
@@ -303,13 +303,13 @@ This opens a dialog called `Save IP Variation`, at the end of the line enter `al
 
 ![VariationPLL](/assets/images/quartus2-ipvariation-altpll50.jpg)
 
-This opens the `MegaWizzard` dialog for the PLL.
+This opens the `MegaWizard` dialog for the PLL.
 Change `What is the frequency of the inclk0 input?` to `50.000`.
 
 ![WizardPLL](/assets/images/megawizzard-altpll50.jpg)
 
 Then press `Finish` _twice_.
-This closes the `MegaWizzard` dialog, and opens a new dialog asking if you want to add this IP block to your project.
+This closes the `MegaWizard` dialog, and opens a new dialog asking if you want to add this IP block to your project.
 We want his, so select 'Yes'.
 
 ### Synthesis time
@@ -322,7 +322,7 @@ In my extremely slow VM this compilation/synthesis process will take a while, if
 
 After synthesis has finished, it is time to program our FPGA board.
 Connect the FPGA board to a USB port, and start the programmer from the menu bar: `Tools -> Programmer`.
-Press the `Start` button on the left to program your FPGA and wait until the progress bar says `100% (Succesful)`.
+Press the `Start` button on the left to program your FPGA and wait until the progress bar says `100% (Successful)`.
 
 ![Programmer](/assets/images/quartus2-programmer-blinker.jpg)
 
