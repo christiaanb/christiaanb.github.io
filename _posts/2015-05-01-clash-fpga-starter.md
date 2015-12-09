@@ -310,7 +310,7 @@ Change `What is the frequency of the inclk0 input?` to `50.000`.
 
 Then press `Finish` _twice_.
 This closes the `MegaWizard` dialog, and opens a new dialog asking if you want to add this IP block to your project.
-We want his, so select 'Yes'.
+We want this, so select 'Yes'.
 
 ### Synthesis time
 
