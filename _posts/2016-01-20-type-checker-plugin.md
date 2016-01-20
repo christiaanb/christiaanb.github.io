@@ -249,7 +249,7 @@ solveGCD gcdTc _ _ wanteds = return $! case failed of
 {% endhighlight %}
 
 The first clause basically says that, if there are no wanted constraints for us to solve we are done.
-The thing is, our type-checker is used inside two phases of GHC's solver pipeline.
+The thing is, our type-checker plugin is used inside two phases of GHC's solver pipeline.
 In the first phase, only given (and probably derived) constraints are passed through the pipeline.
 A type-checker plugin could then extend GHCs knowledge about the constraints by creating more given constraints, which could then help in solving future wanted constraints.
 In the second phase, we'll be constantly given new wanted constraints that pop up during iterations of the solver, until all wanted constraints have passed trough the pipeline at least once.
