@@ -165,7 +165,7 @@ The `TcPlugin` record has three fields:
 
 Our type-checker plugin solves equations involving our `GCD` type family, so we need to know that the types that we are dealing with actually involve `GCD`.
 To do that, we need GHC's internal representation of `GCD`, which is a [TyCon](https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/TyCon.html#t:TyCon).
-We do the lookup of our `GCD` TyCon in the initialisation of our type-checker plugin, so that it becomes of our plugin's internal state:
+We do the lookup of our `GCD` TyCon in the initialisation of our type-checker plugin, so that it becomes our plugin's internal state:
 
 {%highlight haskell %}
 lookupGCDTyCon :: TcPluginM TyCon
