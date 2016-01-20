@@ -242,6 +242,7 @@ solveGCD gcdTc _ _ wanteds = return $! case failed of
   where
     gcdWanteds :: [(Ct,(Integer,Integer))]
     gcdWanteds      = mapMaybe (toGCDEquality gcdTc) wanteds
+    
     solved, failed :: [Ct]
     (solved,failed) = (map fst *** map fst)
                     $ partition (uncurry (==) . snd) gcdWanteds
