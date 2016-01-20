@@ -255,7 +255,7 @@ A type-checker plugin could then extend GHCs knowledge about the constraints by 
 In the second phase, we'll be constantly given new wanted constraints that pop up during iterations of the solver, until all wanted constraints have passed trough the pipeline at least once.
 
 This brings us to the second clause, which is the clause that handles this phase 2 part.
-It filters out all the wanted constraints (involving `GCD`) of which there is hope that we actually can solve them; these interesting wanted constraints are `gcdWanteds`.
+It filters out all the wanted constraints (involving `GCD`) for there is hope that we actually can solve them; these interesting wanted constraints are `gcdWanteds`.
 As we will see later on, the solving part basically consists of trying to reduce both sides of the equality relation to a number.
 So given the equality `GCD 6 8 ~ 2`, we reduce it to `2 ~ 2`.
 Consequently, all the `solved` constraints are the constraints where both sides of the equality reduced to the same number, and `failed` constraints are the constraints where the sides of the equality reduced to a different number.
