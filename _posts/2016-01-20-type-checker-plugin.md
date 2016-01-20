@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "GHC Type checker plugins: adding new type-level operations"
+title:  "GHC type checker plugins: adding new type-level operations"
 date:   2016-01-20 09:10:00
-categories: draft
+categories: blogging
 tags: haskell dependent_types type_checker_plugins
-comments: false
-analytics: false
+comments: true
+analytics: true
 ---
 
 Since version 7.10.1, GHC supports so-called [type-checker plugins](https://downloads.haskell.org/~ghc/7.10.1/docs/html/users_guide/compiler-plugins.html#typechecker-plugins) which let us extend GHC's constraint solver, i.e. extend the the range of programs GHC can type check.
@@ -17,7 +17,7 @@ Several plugins have already been released, the ones I know are:
   * [ghc-typelits-natnormalise](http://hackage.haskell.org/package/ghc-typelits-natnormalise): which solves numeric constraints using a custom normalisation procedure as opposed to Iavor's approach, which uses SMT solvers.
   * [ghc-typelits-extra](http://hackage.haskell.org/package/ghc-typelits-natnormalise): which adds a type-level greatest common denominator (GCD) and (ceiling of) logarithm operator for GHCs type-level `Nat`ural numbers.
 
-This post will be about writing our own type-checker plugin: we will build a plugin that (just like [ghc-typelits-extra](http://hackage.haskell.org/package/ghc-typelits-extra)) allows GHC to perform GCD on type of kind [Nat](http://hackage.haskell.org/package/base-4.8.1.0/docs/GHC-TypeLits.html#t:Nat).
+This post will be about writing our own type-checker plugin: we will build a plugin that (just like [ghc-typelits-extra](http://hackage.haskell.org/package/ghc-typelits-extra)) allows GHC to perform GCD on types of kind [Nat](http://hackage.haskell.org/package/base-4.8.1.0/docs/GHC-TypeLits.html#t:Nat).
 <br>
 # Why a type-checker plugin?
 So the first question that might pop up: why do we even need to write a type-checker plugin to support GCD over `Nat`? The "problem" is that `Nat` is _not_ inductively defined like so:
