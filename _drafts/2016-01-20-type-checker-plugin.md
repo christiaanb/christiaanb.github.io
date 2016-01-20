@@ -9,7 +9,7 @@ analytics: false
 ---
 
 Since version 7.10.1, GHC supports so-called [type-checker plugins](https://downloads.haskell.org/~ghc/7.10.1/docs/html/users_guide/compiler-plugins.html#typechecker-plugins) which let us extend GHC's constraint solver, i.e. extend the the range of programs GHC can type check.
-Several plugins have already been have already been released, the ones I know are:
+Several plugins have already been released, the ones I know are:
 
 * Adam Gundry's [uom-plugin](http://hackage.haskell.org/package/uom-plugin) for supporting units of measure.
 * Iavor Diatchki's [type-nat-solver](https://github.com/yav/type-nat-solver) which allows you to hook up SMT solvers to solve numeric constraints.
@@ -17,7 +17,7 @@ Several plugins have already been have already been released, the ones I know ar
   * [ghc-typelits-natnormalise](http://hackage.haskell.org/package/ghc-typelits-natnormalise) which solves numeric constraints using a custom normalisation procedure as opposed to Iavor's approach which uses SMT solvers.
   * [ghc-typelits-extra](http://hackage.haskell.org/package/ghc-typelits-natnormalise) which adds a type-level greatest common denominator (GCD) and (ceiling of) logarithm operator for GHCs type-level `Nat`ural numbers.
 
-This post will be about writing our own type-checker plugin: we will build a plugin that (just like [ghc-typelits-extra](http://hackage.haskell.org/package/ghc-typelits-natnormalise)) allows GHC to perform GCD on type of kind `Nat`.
+This post will be about writing our own type-checker plugin: we will build a plugin that (just like [ghc-typelits-extra](http://hackage.haskell.org/package/ghc-typelits-natnormalise)) allows GHC to perform GCD on type of kind [Nat](http://hackage.haskell.org/package/base-4.8.1.0/docs/GHC-TypeLits.html#t:Nat).
 <br>
 # Why a type-checker plugin?
 So the first question that might pop up: why do we even need to write a type-checker plugin to support GCD over `Nat`? The "problem" is that `Nat` is not defined inductively like so:
@@ -45,7 +45,8 @@ test :: Proxy (S (S (S (S Z)))) -> Proxy (Add (S (S Z)) (S (S Z)))
 test = id
 {% endhighlight %}
 
-But, inductively defined `Nat`s is not what we have, we have `Integer`s, we might start with:
+However, an inductively defined `Nat`s is not what GHC gives us, it gives us `Integer`s.
+Having only `Integer`s, we might try to start with:
 
 {%highlight haskell %}
 {-# LANGUAGE DataKinds, TypeFamilies #-}
@@ -161,9 +162,9 @@ The `TcPlugin` record has three fields:
   One can also perform IO operations, and have the state contain `IORef`s.
 * `tcPluginSolve`: The main solver function, this is were we will actually perform the _gcd_ calculation.
 * `tcPluginStop`: Cleaning up of the state.
-  We have no use for it, but it can for example be used to remove files that were used as a communication medium with an SMT solver.
+  We have no use for it, but it can for example be used to remove files that are used as a communication medium with an SMT solver.
 
-Our type-checker plugin solves equations involving our `GCD` type family, so we need to know that the type that we are dealing with actually involves `GCD`.
+Our type-checker plugin solves equations involving our `GCD` type family, so we need to know that the types that we are dealing with actually involve `GCD`.
 To do that, we need GHC's internal representation of `GCD`, which is a [TyCon](https://downloads.haskell.org/~ghc/7.10.3/docs/html/libraries/ghc-7.10.3/TyCon.html#t:TyCon).
 We do the lookup of our `GCD` TyCon in the initialisation of our type-checker plugin, so that it becomes of our plugin's internal state:
 
@@ -196,14 +197,6 @@ solveGCD gcdTc _ _ wanteds = return $! case failed of
     (solved,failed) = (map fst *** map fst)
                     $ partition (uncurry (==) . snd) gcdWanteds
 
-reduceGCD :: TyCon -> Type -> Maybe Integer
-reduceGCD gcdTc = go
-  where
-    go (LitTy (NumTyLit i)) = Just i
-    go (TyConApp tc [x,y])
-      | tc == gcdTc = gcd <$> go x <*> go y
-    go _ = Nothing
-
 toGCDEquality :: TyCon -> Ct -> Maybe (Ct,(Integer,Integer))
 toGCDEquality gcdTc ct =
   case classifyPredType $ ctEvPred $ ctEvidence ct of
@@ -215,8 +208,18 @@ toGCDEquality gcdTc ct =
     isNatKind :: Kind -> Bool
     isNatKind = eqType typeNatKind
 
+reduceGCD :: TyCon -> Type -> Maybe Integer
+reduceGCD gcdTc = go
+  where
+    go (LitTy (NumTyLit i)) = Just i
+    go (TyConApp tc [x,y])
+      | tc == gcdTc = gcd <$> go x <*> go y
+    go _ = Nothing
+
 evMagic :: Ct -> Maybe EvTerm
 evMagic ct = case classifyPredType $ ctEvPred $ ctEvidence ct of
     EqPred NomEq t1 t2 -> Just (evByFiat "ghc-typelits-gcd" t1 t2)
     _                  -> Nothing
 {% endhighlight %}
+
+The complete code can be found on [https://github.com/christiaanb/ghc-typelits-gcd](https://github.com/christiaanb/ghc-typelits-gcd)
