@@ -340,7 +340,7 @@ When you start writing "real" type-checker plugins, you'll have to think _at lea
   That was actually a white lie!
   The evidence it generates is not our simple `evByFiat` (i.e. "Believe me"), but a _conditional_ evidence.
   We need it to be conditional, because if `GCD 6 8 ~ 2` turned out not to be true, then `x + GCD 6 8 ~ 2 + x` isn't true either.
-  I used to solve this problem with [tricks/hacks](http://hackage.haskell.org/package/ghc-tcplugins-extra-0.2/docs/src/GHC-TcPluginM-Extra.html#newWantedWithProvenance), but GHC 8+ seems to allow me to do this in [a more sanctioned way](https://github.com/clash-lang/ghc-typelits-natnormalise/blob/master/src/GHC/TypeLits/Normalise.hs#L262).
+  I used to solve this problem with [tricks/hacks](http://hackage.haskell.org/package/ghc-tcplugins-extra-0.2/docs/src/GHC-TcPluginM-Extra.html#newWantedWithProvenance), but GHC 8+ seems to allow me to do this in [a more sanctioned way](https://github.com/clash-lang/ghc-typelits-natnormalise/blob/v0.4/src/GHC/TypeLits/Normalise.hs#L262).
 
 Remember where I said it was easier to have the single equation definition of the `GCD` type family as opposed to the zero equation definition.
 Our test case, `test2`, is the proof of that: our solver, as it is currently defined, is completely unable to handle `test2`.
