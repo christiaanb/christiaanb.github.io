@@ -1,24 +1,24 @@
 {
-  "name": "Jekyll Starter",
+  "name": "christiaanb-blog",
   "version": "0.0.5",
-  "description": "Jekyll starter project",
+  "description": "My Blog",
   "repository": {
     "type": "git",
-    "url": "git://github.com/msanand/jekyllstarter.git"
+    "url": "git://github.com/christiaanb/christiaanb.github.io.git"
   },
   "keywords": [
     "blog",
     "jekyll"
   ],
-  "author": "Anand Mani Sankar",
+  "author": "Christiaan Baaij",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/msanand/jekyllstarter/issues"
+    "url": "https://github.com/christiaanb/christiaanb.github.io/issues"
   },
-  "homepage": "https://github.com/msanand/jekyllstarter",
+  "homepage": "https://github.com/christiaanb/christiaanb.github.io",
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-cssmin": "^0.10.0",
-    "grunt-jekyll": "^0.4.2"
+    "grunt": "~0.4.5",
+    "grunt-contrib-cssmin": "~0.14.0",
+    "grunt-jekyll": "~0.4.3"
   }
 }

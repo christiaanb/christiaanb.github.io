@@ -45,3 +45,9 @@ github:
 
 # Version Info
 version:          1.0
+
+# exclude
+exclude: [assets/css/custom.css,assets/css/lanyon.css,assets/css/poole.css
+         ,assets/css/syntax.css,node_modules,Gemfile,Gemfile.lock
+         ,Gruntfile.js,LICENSE,LICENSE.md,README.md,bower.json
+         ,package.json]
