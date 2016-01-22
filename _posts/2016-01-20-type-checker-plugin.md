@@ -71,6 +71,34 @@ To my my knowledge, no efforts have been made to explore this option in GHC.
 
 With the advent of type-checker plugins, the `Integer`-representation aspect of `Nat` has not been a problem any longer for most of [my projects](http://clash-lang.org).
 
+__UPDATE:__
+@Bodigrim on [reddit](https://www.reddit.com/r/haskell/comments/41wp6d/an_introduction_to_building_ghc_typechecker/cz6vopp) showed that we can just implement GCD with the tools already in `GHC.TypeLits`:
+
+{%highlight haskell %}
+{-# LANGUAGE DataKinds            #-}
+{-# LANGUAGE TypeFamilies         #-}
+{-# LANGUAGE TypeOperators        #-}
+{-# LANGUAGE UndecidableInstances #-}
+
+import Data.Proxy
+import GHC.TypeLits
+
+type family Cmp123 (o :: Ordering) (x :: Nat) (y :: Nat) (z :: Nat) :: Nat where
+  Cmp123 LT x y z = x
+  Cmp123 EQ x y z = y
+  Cmp123 GT x y z = z
+
+type family GCD (x :: Nat) (y :: Nat) :: Nat where
+  GCD 0 x = x
+  GCD x 0 = x
+  GCD x y = Cmp123 (CmpNat x y) (GCD x (y - x)) x (GCD (x - y) y)
+
+test :: Proxy (GCD 372 48) -> Proxy 12
+test = id
+{% endhighlight %}
+
+I guess the lesson learned here is that type-checker plugins should always be a last resort measure.
+
 # Type-level GCD
 
 OK, enough about why we need to implement GCD using a type-checker plugin.
